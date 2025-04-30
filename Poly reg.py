@@ -4,6 +4,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import PolynomialFeatures 
 from sklearn.linear_model import LinearRegression 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+import matplotlib.pyplot as plt
+
 df = pd.read_csv("insurance.csv")
 
 df = pd.get_dummies(df, columns=['sex', 'smoker', 'region'], drop_first=True)
@@ -33,7 +35,6 @@ r2 = r2_score(y_test, y_pred)
 print(f"Mean Absolute Error (MAE): {mae}")
 print(f"Mean Squared Error (MSE): {mse}")
 print(f"R² Score (Accuracy): {r2}")
-import matplotlib.pyplot as plt
 
 plt.figure(figsize=(8, 5))
 plt.scatter(y_test, y_pred, color="blue", alpha=0.5)
