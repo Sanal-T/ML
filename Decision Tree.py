@@ -36,7 +36,22 @@ dt_pred = dt.predict(X_test)
 
 cm = confusion_matrix(y_test, dt_pred)
 
-cm_display = ConfusionMatrixDisplay(confusion_matrix=cm)
-cm_display.plot()
+cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+cm_display = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Class 0", "Class 1"])
+
+fig, ax = plt.subplots(figsize=(6, 6)) 
+cm_display.plot(cmap=plt.cm.Blues, ax=ax, colorbar=True)
+
+plt.title("Confusion Matrix - Decision Tree Classifier")
+plt.xlabel("Predicted Label")
+plt.ylabel("True Label")
+
+thresh = cm.max() / 2.
+for i in range(cm.shape[0]):
+    for j in range(cm.shape[1]):
+        plt.text(j, i, f"{cm_normalized[i, j]:.2f}", 
+                 ha="center", va="center",
+                 color="white" if cm[i, j] > thresh else "black")
 
 plt.show()
