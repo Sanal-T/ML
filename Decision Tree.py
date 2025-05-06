@@ -33,3 +33,10 @@ dt = DecisionTreeClassifier(criterion="entropy")
 dt.fit(X_train, y_train)
 
 dt_pred = dt.predict(X_test)
+
+cm = confusion_matrix(y_test, dt_pred)
+
+cm_display = ConfusionMatrixDisplay(confusion_matrix=cm)
+cm_display.plot()
+
+plt.show()
