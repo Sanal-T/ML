@@ -39,6 +39,15 @@ model_history = classifier.fit(X_train, y_train, validation_split=0.33, batch_si
 y_pred = classifier.predict(X_test)
 y_pred = (y_pred > 0.5)
 
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+sns.heatmap(cm, annot=True, fmt='d', cmap="Blues", cbar=False)
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted Label')
+plt.ylabel('True Label')
+plt.show()
+
 accuracy = accuracy_score(y_test, y_pred)
 print(f'The accuracy of the model is: {accuracy}')
 
