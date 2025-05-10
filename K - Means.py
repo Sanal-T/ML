@@ -4,6 +4,8 @@ import seaborn as sns
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
+import plotly.express as px
 
 df = pd.read_csv("Live.csv")
 
@@ -28,9 +30,15 @@ plt.xlabel('Number of Clusters')
 plt.ylabel('Inertia')
 plt.show()
 
-optimal_clusters = 3 
+optimal_clusters = 3
 kmeans = KMeans(n_clusters=optimal_clusters, random_state=42)
 df['Cluster'] = kmeans.fit_predict(scaled_features)
+
+silhouette_avg = silhouette_score(scaled_features, df['Cluster'])
+print(f"Silhouette Score for {optimal_clusters} clusters: {silhouette_avg}")
+
+df.to_csv("Clustered_Live.csv", index=False)
+print("Clustered data saved to 'Clustered_Live.csv'.")
 
 plt.figure(figsize=(10, 7))
 sns.scatterplot(x=pca_features[:, 0], y=pca_features[:, 1], hue=df['Cluster'], palette='viridis', s=100)
@@ -40,4 +48,23 @@ plt.ylabel("PCA Component 2")
 plt.legend(title='Cluster')
 plt.show()
 
+fig = px.scatter(
+    x=pca_features[:, 0], 
+    y=pca_features[:, 1], 
+    color=df['Cluster'].astype(str),
+    title="Interactive K-means Clustering Visualization",
+    labels={'x': 'PCA Component 1', 'y': 'PCA Component 2', 'color': 'Cluster'}
+)
+fig.show()
 
+centroids = kmeans.cluster_centers_
+centroids_pca = pca.transform(centroids)
+
+plt.figure(figsize=(10, 7))
+sns.scatterplot(x=pca_features[:, 0], y=pca_features[:, 1], hue=df['Cluster'], palette='viridis', s=100)
+plt.scatter(centroids_pca[:, 0], centroids_pca[:, 1], c='red', marker='X', s=200, label='Centroids')
+plt.title("K-means Clustering with Centroids")
+plt.xlabel("PCA Component 1")
+plt.ylabel("PCA Component 2")
+plt.legend(title='Cluster')
+plt.show()
