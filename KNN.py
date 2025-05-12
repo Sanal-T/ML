@@ -29,3 +29,11 @@ print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X_scaled)
+
+plt.figure(figsize=(10, 7))
+sns.scatterplot(x=X_pca[:, 0], y=X_pca[:, 1], hue=y, palette='coolwarm', s=100)
+plt.title("Diabetes Classification Based on k-NN (PCA Reduced Features)")
+plt.xlabel("PCA Component 1")
+plt.ylabel("PCA Component 2")
+plt.legend(title='Diabetes Outcome', labels=['No Diabetes', 'Diabetes'])
+plt.show()
