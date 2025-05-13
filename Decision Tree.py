@@ -36,7 +36,7 @@ dt_pred = dt.predict(X_test)
 
 cm = confusion_matrix(y_test, dt_pred)
 
-cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+cm_normalized = cm.astype('int') / cm.sum(axis=1)[:, np.newaxis]
 
 cm_display = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Class 0", "Class 1"])
 
