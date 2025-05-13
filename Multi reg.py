@@ -13,8 +13,8 @@ X = df.drop('price', axis='columns')
 y = df.price
 reg.fit(X, y)
 
-prediction = reg.predict([[3000, 3, 40]])
-print(f"Prediction for input [3000, 3, 40]: {prediction[0]}")
+prediction = reg.predict([[4000, 4, 50]])
+print(f"Prediction for input [4000, 4, 50]: {prediction[0]}")
 
 y_pred = reg.predict(X)
 
